@@ -1,5 +1,4 @@
 <?php
-
 include "class.Card.php";
 
 $card = new Card();
@@ -14,7 +13,10 @@ $cardDeck = array(
 if (isset($_GET["action"])) {
 
     if ($_GET["action"] == "HIT") {
-        $card->createCard($cardDeck);
+        
+        $card = $card->createCard($cardDeck);
+        
+        echo $card[0] . " " . $card[1];
     }
 
     if ($_GET["action"] == "STAND") {
