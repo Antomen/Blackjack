@@ -1,7 +1,7 @@
 <?php
-include "class.Card.php";
+include "class.Cards.php";
 
-$card = new Card();
+$cards = new Cards();
 
 $cardDeck = array(
     $heart = array("2", "3", "4", "5", "6", "7", "8", "9", "10", "jack", "queen", "king", "ace"),
@@ -13,10 +13,14 @@ $cardDeck = array(
 if (isset($_GET["action"])) {
 
     if ($_GET["action"] == "HIT") {
+
+        $card = $cards->createCards($cardDeck);
         
-        $card = $card->createCard($cardDeck);
-        
-        echo $card[0] . " " . $card[1];
+        $cardEcho = $cardDeck[$card[0]] . $card[1];
+
+        foreach ($cardEcho as $echo){
+            echo $echo;
+        }
     }
 
     if ($_GET["action"] == "STAND") {
