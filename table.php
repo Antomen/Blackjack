@@ -15,11 +15,11 @@ if (isset($_GET["action"])) {
     if ($_GET["action"] == "HIT") {
 
         $card = $cards->createCards($cardDeck);
-        
-        $cardEcho = $cardDeck[$card[0]] . $card[1];
 
-        foreach ($cardEcho as $echo){
-            echo $echo;
+        //fix: uppdateras
+        
+        foreach($card as $i){
+        echo $i . " ";
         }
     }
 
