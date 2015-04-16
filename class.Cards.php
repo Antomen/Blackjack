@@ -29,7 +29,7 @@ class Cards {
                 break;
         }
 
-        $card = array($color, $value);
+        $card = array($value, $color);
 
         return $card;
     }

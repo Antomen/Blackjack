@@ -1,5 +1,6 @@
 <?php
 include "class.Cards.php";
+include "print.js";
 
 $cards = new Cards();
 
@@ -18,13 +19,11 @@ if (isset($_GET["action"])) {
 
         //fix: uppdateras
         
-        foreach($card as $i){
-        echo $i . " ";
-        }
-    }
+        echo $card[0] . " of " . $card[1];
 
     if ($_GET["action"] == "STAND") {
         
+    }
     }
 }
 ?>
@@ -40,6 +39,9 @@ if (isset($_GET["action"])) {
         <div class="bord">
 
             <div class="player">
+                <div class="statistik">
+
+                </div>
                 <form method="GET">
                     <input type="submit" name="action" value="HIT">
                     <input type="submit" name="action" value="STAND">
@@ -49,6 +51,10 @@ if (isset($_GET["action"])) {
             <div class="dealer">
 
             </div>
+
+            <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+            <script src="print.js"></script>
+
         </div>
     </body>
 </html>
