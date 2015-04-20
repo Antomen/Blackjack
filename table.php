@@ -1,8 +1,10 @@
 <?php
+session_start();
 include "class.Cards.php";
-include "print.js";
 
 $cards = new Cards();
+
+
 
 $cardDeck = array(
     $heart = array("2", "3", "4", "5", "6", "7", "8", "9", "10", "jack", "queen", "king", "ace"),
@@ -16,14 +18,16 @@ if (isset($_GET["action"])) {
     if ($_GET["action"] == "HIT") {
 
         $card = $cards->createCards($cardDeck);
-
         //fix: uppdateras
-        
-        echo $card[0] . " of " . $card[1];
 
+        $_SESSION["cards"][] = $card;
+
+        var_dump($_SESSION);
+        
+//        echo $card[0] . " of " . $card[1];
+    }
     if ($_GET["action"] == "STAND") {
         
-    }
     }
 }
 ?>
@@ -40,7 +44,7 @@ if (isset($_GET["action"])) {
 
             <div class="player">
                 <div class="statistik">
-
+                    <input type="hidden" value="">
                 </div>
                 <form method="GET">
                     <input type="submit" name="action" value="HIT">
@@ -52,9 +56,9 @@ if (isset($_GET["action"])) {
 
             </div>
 
-            <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-            <script src="print.js"></script>
+
 
         </div>
+
     </body>
 </html>
