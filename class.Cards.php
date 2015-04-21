@@ -1,14 +1,16 @@
 <?php
-
+session_start();
 class Cards {
 
-    public function createCards($cardDeck) {
+    public function createCards() {
 
-        $tmp = rand(0, count($cardDeck) - 1);
-        $tmpDeck = $cardDeck[$tmp];
-        $value = $tmpDeck[rand(0, count($tmpDeck) - 1)];
-
-        $color = $tmp;
+        $color = rand(0, count($_SESSION["deck"]) - 1);
+        //$colorDeck = $_SESSION["deck"][$color];
+        $kortPosition = rand(0, count($_SESSION["deck"][$color]) - 1);
+        var_dump($kortPosition);
+        echo $_SESSION["deck"][$color][$kortPosition];
+        $value = array_splice($_SESSION["deck"][$color], $kortPosition, 1 );
+//        $value = array_splice($colorDeck, $colorDeck[rand(0, count($colorDeck) - 1)], 1 );
 
         switch ($color) {
 
@@ -28,10 +30,13 @@ class Cards {
                 $color = "spades";
                 break;
         }
+        
+//        var_dump($colorDeck);
 
-        $card = array($value, $color);
+        $card = array($value[0], $color);
 
-        return $card;
+        $_SESSION["cards"][] = $card;
+        
     }
 
 }

@@ -1,0 +1,8 @@
+.statistik{
+    border: 1px black solid;
+    width: 400px;
+    
+}
+.statistik.p{
+    margin: 20px;
+}
