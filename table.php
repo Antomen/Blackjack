@@ -1,16 +1,16 @@
 <?php
 include "class.Cards.php";
-include "class.Ace.php";
 
 $cards = new Cards();
 $ace = new Ace();
 
 if (!isset($_SESSION["summa"])) {
-    echo "hej!";
     $_SESSION["summa"] = 0;
 }
 
-$aceStatement = null;
+if (!isset($_SESSION["ace"])){
+    $_SESSION["ace"] = null;
+}
 
 if (!isset($_SESSION["deck"])) {
 
@@ -35,16 +35,24 @@ if (isset($_GET["action"])) {
             $_SESSION["summa"] += 10;
         } else if ($term == "ace") {
 
-            if ($_SESSION["summa"] > 10) {
-                $_SESSION["summa"] += 1;
-            } else {
-                $aceStatement = true;
-            }
+            $_SESSION["summa"] += 11;
+
+            $_SESSION["ace"] = true;
+            
         } else {
+            
             $_SESSION["summa"] += $term;
+            
         }
 
         echo $_SESSION["summa"];
+
+
+
+        if ($_SESSION["ace"] == true) {
+            $tmpSumma = $_SESSION["summa"] - 10;
+            echo "/" . $tmpSumma;
+        }
     }
 
 
@@ -72,15 +80,9 @@ if (isset($_GET["action"])) {
                     <?php
                     if (isset($_SESSION["cards"])) {
 
-
                         foreach ($_SESSION["cards"] as $card) {
 
-                            if ($aceStatement == true) {
-                                $ace->aceCalc();
-                                $aceStatement = false;
-                            } else {
-                                echo $card[0] . " of " . $card[1] . "<br>";
-                            }
+                            echo $card[0] . " of " . $card[1] . "<br>";
                         }
                     }
                     ?>
@@ -109,7 +111,5 @@ if (isset($_GET["action"])) {
 
         <a href="kill.php">KILL!</a>
 
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-        <script src="ace.js"></script>    
     </body>
 </html>
