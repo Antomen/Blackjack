@@ -2,15 +2,17 @@
 include "class.Cards.php";
 
 $cards = new Cards();
-$ace = new Ace();
 
 if (!isset($_SESSION["summa"])) {
     $_SESSION["summa"] = 0;
 }
 
-if (!isset($_SESSION["ace"])){
+if (!isset($_SESSION["ace"])) {
     $_SESSION["ace"] = null;
 }
+
+$firstTime = true;
+$gameOver = false;
 
 if (!isset($_SESSION["deck"])) {
 
@@ -38,28 +40,18 @@ if (isset($_GET["action"])) {
             $_SESSION["summa"] += 11;
 
             $_SESSION["ace"] = true;
-            
         } else {
-            
+
             $_SESSION["summa"] += $term;
-            
-        }
-
-        echo $_SESSION["summa"];
-
-
-
-        if ($_SESSION["ace"] == true) {
-            $tmpSumma = $_SESSION["summa"] - 10;
-            echo "/" . $tmpSumma;
         }
     }
 
-
-
-
     if ($_GET["action"] == "STAND") {
         
+    }
+
+    if ($_GET["action"] == "Spela igen") {
+        include "kill.php";
     }
 }
 ?>
@@ -77,23 +69,57 @@ if (isset($_GET["action"])) {
 
             <div class="player">
                 <div class="statistik">
-                    <?php
-                    if (isset($_SESSION["cards"])) {
+<?php
+if (isset($_SESSION["cards"])) {
 
-                        foreach ($_SESSION["cards"] as $card) {
+    foreach ($_SESSION["cards"] as $card) {
 
-                            echo $card[0] . " of " . $card[1] . "<br>";
-                        }
-                    }
-                    ?>
+        echo $card[0] . " of " . $card[1] . "<br>";
+    }
+}
+?>
+
                 </div>
 
-                <br>
+                    <?php
+                    if (!$_SESSION["summa"] == 0) {
+                        echo "Summa: " . $_SESSION["summa"];
 
-                <form method="GET">
-                    <input type="submit" name="action" value="HIT">
-                    <input type="submit" name="action" value="STAND">
-                </form>    
+                        if ($_SESSION["ace"] == true) {
+                            $tmpSumma = $_SESSION["summa"] - 10;
+                            echo "/" . $tmpSumma;
+                        }
+                        
+                        echo "<br>";
+                        
+                    }
+
+
+                    if ($_SESSION["summa"] > 21) {
+                        $gameOver = true;
+                        echo "You lost. Play again?";
+                        echo "<br>";
+                    }
+
+                    echo "<br>";
+
+                    switch ($gameOver) {
+
+                        case false:
+                            echo "<form method='GET'>";
+                            echo "<input type='submit' name='action' value='HIT'>";
+                            echo "<input type='submit' name='action' value='STAND'>";
+                            echo "</form>";
+                            break;
+
+                        case true:
+                            echo "<form method='GET'>";
+                            echo "<input type='submit' name='action' value='Spela igen'>";
+                            echo "</form>";
+                            break;
+                    }
+                    ?>
+
             </div>
 
             <div class="dealer">
