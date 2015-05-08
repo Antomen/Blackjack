@@ -6,6 +6,9 @@ $cards = new Cards();
 if (!isset($_SESSION["summa"])) {
     $_SESSION["summa"] = 0;
 }
+if (!isset($_SESSION["summa2"])) {
+    $_SESSION["summa2"] = 0;
+}
 
 if (!isset($_SESSION["ace"])) {
     $_SESSION["ace"] = null;
@@ -69,56 +72,66 @@ if (isset($_GET["action"])) {
 
             <div class="player">
                 <div class="statistik">
-<?php
-if (isset($_SESSION["cards"])) {
+                    <?php
+                    if (isset($_SESSION["cards"])) {
 
-    foreach ($_SESSION["cards"] as $card) {
+                        foreach ($_SESSION["cards"] as $card) {
 
-        echo $card[0] . " of " . $card[1] . "<br>";
-    }
-}
-?>
+                            echo $card[0] . " of " . $card[1] . "<br>";
+                        }
+                    }
+                    ?>
 
                 </div>
 
-                    <?php
-                    if (!$_SESSION["summa"] == 0) {
-                        echo "Summa: " . $_SESSION["summa"];
+                <?php
+                if (!$_SESSION["summa"] == 0) {
+                    echo "Summa: " . $_SESSION["summa"];
 
-                        if ($_SESSION["ace"] == true) {
-                            $tmpSumma = $_SESSION["summa"] - 10;
-                            echo "/" . $tmpSumma;
-                        }
-                        
-                        echo "<br>";
-                        
+                    if ($_SESSION["ace"] == true) {
+                        $_SESSION["summa2"] = $_SESSION["summa"] - 10;
+                        echo "/" . $_SESSION["summa2"];
                     }
 
+                    echo "<br>";
+                }
 
-                    if ($_SESSION["summa"] > 21) {
+
+                if ($_SESSION["summa"] > 21) {
+
+                    if ($_SESSION["ace"] == true) {
+                        if ($_SESSION["summa2"] > 21) {
+                            $gameOver = true;
+                            echo "You lost. Play again?";
+                            echo "<br>";
+                        }
+                    } else {
                         $gameOver = true;
                         echo "You lost. Play again?";
                         echo "<br>";
                     }
+                } else if ($_SESSION["summa"] == 21 || $_SESSION["summa2"] == 21) {
+                    
+                }
 
-                    echo "<br>";
+                echo "<br>";
 
-                    switch ($gameOver) {
+                switch ($gameOver) {
 
-                        case false:
-                            echo "<form method='GET'>";
-                            echo "<input type='submit' name='action' value='HIT'>";
-                            echo "<input type='submit' name='action' value='STAND'>";
-                            echo "</form>";
-                            break;
+                    case false:
+                        echo "<form method='GET'>";
+                        echo "<input type='submit' name='action' value='HIT'>";
+                        echo "<input type='submit' name='action' value='STAND'>";
+                        echo "</form>";
+                        break;
 
-                        case true:
-                            echo "<form method='GET'>";
-                            echo "<input type='submit' name='action' value='Spela igen'>";
-                            echo "</form>";
-                            break;
-                    }
-                    ?>
+                    case true:
+                        echo "<form method='GET'>";
+                        echo "<input type='submit' name='action' value='Spela igen'>";
+                        echo "</form>";
+                        break;
+                }
+                ?>
 
             </div>
 
