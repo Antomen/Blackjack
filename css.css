@@ -1,6 +1,16 @@
+*{
+    margin: 0 auto;
+}
+.player{
+    margin-top: 50px;
+}
+.knappar{
+    text-align: center;
+}
 .statistik{
+    text-align: center;
     border: 1px black solid;
-    width: 400px;
+    width: 200px;
     
 }
 .statistik.p{

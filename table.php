@@ -3,6 +3,10 @@ include "class.Cards.php";
 
 $cards = new Cards();
 
+if ($_SESSION["gameOver"] == true) {
+    header("location: table.php");
+}
+
 if (!isset($_SESSION["summa"])) {
     $_SESSION["summa"] = 0;
 }
@@ -14,8 +18,18 @@ if (!isset($_SESSION["ace"])) {
     $_SESSION["ace"] = null;
 }
 
+
+
 $firstTime = true;
 $gameOver = false;
+$gameOverFalse = "<form method='GET'>
+                 <input type='submit' name='action' value='HIT'>
+                 <input type='submit' name='action' value='STAND'>
+                 </form>";
+$gameOverTrue = "<form method='GET'>
+                 <input type='submit' name='action' value='Spela igen'>
+                 </form>";
+
 
 if (!isset($_SESSION["deck"])) {
 
@@ -83,56 +97,51 @@ if (isset($_GET["action"])) {
                     ?>
 
                 </div>
+                <div class="knappar">
+                    <?php
+                    if (!$_SESSION["summa"] == 0) {
+                        echo "Summa: " . $_SESSION["summa"];
 
-                <?php
-                if (!$_SESSION["summa"] == 0) {
-                    echo "Summa: " . $_SESSION["summa"];
+                        if ($_SESSION["ace"] == true) {
+                            $_SESSION["summa2"] = $_SESSION["summa"] - 10;
+                            echo "/" . $_SESSION["summa2"];
+                        }
 
-                    if ($_SESSION["ace"] == true) {
-                        $_SESSION["summa2"] = $_SESSION["summa"] - 10;
-                        echo "/" . $_SESSION["summa2"];
+                        echo "<br>";
                     }
 
-                    echo "<br>";
-                }
 
+                    if ($_SESSION["summa"] > 21) {
 
-                if ($_SESSION["summa"] > 21) {
-
-                    if ($_SESSION["ace"] == true) {
-                        if ($_SESSION["summa2"] > 21) {
-                            $gameOver = true;
+                        if ($_SESSION["ace"] == true) {
+                            if ($_SESSION["summa2"] > 21) {
+                                $_SESSION["gameOver"] = true;
+                                echo "You lost. Play again?";
+                                echo "<br>";
+                            }
+                        } else {
+                            $_SESSION["gameOver"] = true;
                             echo "You lost. Play again?";
                             echo "<br>";
                         }
-                    } else {
-                        $gameOver = true;
-                        echo "You lost. Play again?";
-                        echo "<br>";
+                    } else if ($_SESSION["summa"] == 21 || $_SESSION["summa2"] == 21) {
+                        
                     }
-                } else if ($_SESSION["summa"] == 21 || $_SESSION["summa2"] == 21) {
-                    
-                }
 
-                echo "<br>";
+                    echo "<br>";
 
-                switch ($gameOver) {
+                    switch ($_SESSION["gameOver"]) {
 
-                    case false:
-                        echo "<form method='GET'>";
-                        echo "<input type='submit' name='action' value='HIT'>";
-                        echo "<input type='submit' name='action' value='STAND'>";
-                        echo "</form>";
-                        break;
+                        case false:
+                            echo $gameOverFalse;
+                            break;
 
-                    case true:
-                        echo "<form method='GET'>";
-                        echo "<input type='submit' name='action' value='Spela igen'>";
-                        echo "</form>";
-                        break;
-                }
-                ?>
-
+                        case true:
+                            echo $gameOverTrue;
+                            break;
+                    }
+                    ?>
+                </div>
             </div>
 
             <div class="dealer">
